@@ -1,0 +1,5 @@
+{
+  "name": "Gestor de Licitaciones AI",
+  "description": "Herramienta inteligente para gestionar, analizar y filtrar pliegos públicos basándose en reglas de negocio personalizadas y análisis de IA.",
+  "requestFramePermissions": []
+}
