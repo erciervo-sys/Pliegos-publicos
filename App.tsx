@@ -75,8 +75,11 @@ const App: React.FC = () => {
   };
 
   const handleAnalyze = async (tender: TenderDocument) => {
-    if (!process.env.API_KEY) {
-       setError("API KEY no encontrada. Asegúrate de configurar la variable de entorno.");
+    // Robust check for API key presence before attempting to use service
+    const hasKey = !!process.env.API_KEY;
+                   
+    if (!hasKey) {
+       setError("API KEY no encontrada. Configura tu .env");
        setTimeout(() => setError(null), 5000);
        return;
     }
@@ -106,7 +109,7 @@ const App: React.FC = () => {
 
     } catch (err) {
       console.error(err);
-      setError("Error al analizar el pliego. Inténtalo de nuevo.");
+      setError("Error al analizar el pliego. Revisa la consola.");
       setTimeout(() => setError(null), 5000);
     } finally {
       setAnalyzingIds((prev) => {

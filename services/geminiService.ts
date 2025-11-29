@@ -1,4 +1,3 @@
-
 import { GoogleGenAI, Type, Schema } from "@google/genai";
 import { TenderDocument, AnalysisResult } from "../types";
 // @ts-ignore
@@ -9,8 +8,10 @@ if (typeof window !== 'undefined' && 'Worker' in window) {
   pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@4.0.379/build/pdf.worker.min.mjs`;
 }
 
-// Initialize the client
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// LAZY INITIALIZATION: Only creates the client when needed
+const getAiClient = () => {
+  return new GoogleGenAI({ apiKey: process.env.API_KEY });
+};
 
 // Helper to convert File to Base64
 const fileToPart = async (file: File): Promise<{ inlineData: { data: string; mimeType: string } }> => {
@@ -315,10 +316,7 @@ export const extractMetadataFromTenderFile = async (file: File): Promise<{
   budget: string;
   scoringSystem: string; 
 }> => {
-  if (!process.env.API_KEY) {
-    throw new Error("API Key is missing.");
-  }
-
+  const ai = getAiClient(); // LAZY LOAD HERE
   const modelName = "gemini-2.5-flash";
   const filePart = await fileToPart(file);
 
@@ -423,11 +421,7 @@ export const analyzeTenderWithGemini = async (
   tender: TenderDocument,
   rules: string
 ): Promise<AnalysisResult> => {
-  
-  if (!process.env.API_KEY) {
-    throw new Error("API Key is missing. Please set REACT_APP_GEMINI_API_KEY.");
-  }
-
+  const ai = getAiClient(); // LAZY LOAD HERE
   const modelName = "gemini-2.5-flash";
 
   // Use the shared builder so the prompt is consistent with what the user sees
