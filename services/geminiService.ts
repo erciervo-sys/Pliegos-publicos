@@ -10,7 +10,11 @@ if (typeof window !== 'undefined' && 'Worker' in window) {
 
 // LAZY INITIALIZATION: Only creates the client when needed
 const getAiClient = () => {
-  return new GoogleGenAI({ apiKey: process.env.API_KEY });
+  const key = process.env.API_KEY;
+  if (!key) {
+    throw new Error("API Key no encontrada. Asegúrate de configurar la variable de entorno API_KEY en tu archivo .env o en el panel de Netlify.");
+  }
+  return new GoogleGenAI({ apiKey: key });
 };
 
 // Helper to convert File to Base64
@@ -349,7 +353,7 @@ export const extractMetadataFromTenderFile = async (file: File): Promise<{
   try {
     const response = await ai.models.generateContent({
       model: modelName,
-      contents: { role: 'user', parts: [filePart, { text: prompt }] },
+      contents: [{ role: 'user', parts: [filePart, { text: prompt }] }],
       config: {
         responseMimeType: "application/json",
         responseSchema: responseSchema,
@@ -362,7 +366,7 @@ export const extractMetadataFromTenderFile = async (file: File): Promise<{
 
   } catch (error) {
     console.error("Error extracting metadata:", error);
-    throw new Error("No se pudieron extraer datos del archivo.");
+    throw error;
   }
 };
 
@@ -524,7 +528,7 @@ export const analyzeTenderWithGemini = async (
   try {
     const response = await ai.models.generateContent({
       model: modelName,
-      contents: { role: 'user', parts: parts },
+      contents: [{ role: 'user', parts: parts }],
       config: {
         systemInstruction: systemInstruction,
         responseMimeType: "application/json",
@@ -539,6 +543,6 @@ export const analyzeTenderWithGemini = async (
 
   } catch (error) {
     console.error("Gemini API Error:", error);
-    throw new Error("Failed to analyze tender with AI.");
+    throw error;
   }
 };
