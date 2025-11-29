@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Plus, Upload, Link as LinkIcon, FileText, X, Loader2, FileCheck, AlertTriangle, Trash2, Globe, ExternalLink, Terminal, Euro, BarChart3 } from 'lucide-react';
 import { TenderDocument, TenderStatus } from '../types';
 import { extractMetadataFromTenderFile, downloadFileFromUrl, scrapeDocsFromWeb, extractLinksFromPdf, probeLinksInBatches } from '../services/geminiService';
@@ -252,7 +252,7 @@ const NewTenderForm: React.FC<Props> = ({ onAddTender }) => {
     }
   };
 
-  const UploadZone = ({ type, file, url, setUrl, label }: { type: 'summary' | 'admin' | 'tech', file: File | null, url?: string, setUrl?: (s: string) => void, label: string }) => {
+  const UploadZone = ({ type, file, label }: { type: 'summary' | 'admin' | 'tech', file: File | null, label: string }) => {
     const isActive = dragActive[type];
     const isSummary = type === 'summary';
 
@@ -433,17 +433,13 @@ const NewTenderForm: React.FC<Props> = ({ onAddTender }) => {
         <div className="grid grid-cols-2 gap-3 pt-2 border-t border-white/5">
            <UploadZone 
              type="admin" 
-             file={adminFile} 
-             url={adminUrl} 
-             setUrl={setAdminUrl} 
+             file={adminFile}
              label="PCAP" 
            />
 
            <UploadZone 
              type="tech" 
-             file={techFile} 
-             url={techUrl} 
-             setUrl={setTechUrl} 
+             file={techFile}
              label="PPT" 
            />
         </div>

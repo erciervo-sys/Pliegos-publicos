@@ -1,6 +1,5 @@
-
 import React, { useState, useEffect } from 'react';
-import { Layout, CheckSquare, XSquare, Clock, Search, Database, Loader2, HelpCircle, ArrowRightCircle, Archive, Grid } from 'lucide-react';
+import { Layout, XSquare, Clock, Search, Database, Loader2, HelpCircle, ArrowRightCircle, Archive, Grid } from 'lucide-react';
 import NewTenderForm from './components/NewTenderForm';
 import BusinessRulesEditor from './components/BusinessRulesEditor';
 import TenderCard from './components/TenderCard';

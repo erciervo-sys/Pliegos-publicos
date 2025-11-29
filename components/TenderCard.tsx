@@ -1,7 +1,6 @@
-
 import React, { useState } from 'react';
-import { FileText, Link as LinkIcon, ExternalLink, Loader2, CheckCircle, XCircle, File, FileCode, FileSpreadsheet, Download, AlertCircle, Sparkles, Euro, BarChart3, ChevronDown, ChevronUp, Target, Users, ShieldAlert, Lightbulb, Maximize2, HelpCircle, ArrowRightCircle, Archive } from 'lucide-react';
-import { TenderDocument, TenderStatus, AnalysisResult } from '../types';
+import { FileText, ExternalLink, Loader2, File, FileCode, FileSpreadsheet, Download, AlertCircle, Sparkles, Euro, BarChart3, ChevronDown, ChevronUp, Target, Maximize2, HelpCircle, ArrowRightCircle, Archive, XCircle } from 'lucide-react';
+import { TenderDocument, TenderStatus } from '../types';
 
 interface Props {
   tender: TenderDocument;
